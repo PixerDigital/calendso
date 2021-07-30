@@ -42,15 +42,8 @@ export default function Shell(props) {
             <div className="border-b border-blue-500 dark:border-gray-400">
               <div className="flex items-center justify-between h-16 px-4 sm:px-0">
                 <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    <Link href="/">
-                      <a>
-                        <img className="h-6" src="/calendso-white.svg" alt="Calendso" />
-                      </a>
-                    </Link>
-                  </div>
                   <div className="hidden md:block">
-                    <div className="ml-10 flex items-baseline space-x-4">
+                    <div className="flex items-baseline space-x-4">
                       <Link href="/">
                         <a
                           className={
