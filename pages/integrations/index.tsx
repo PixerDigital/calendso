@@ -81,7 +81,7 @@ export default function Home({ integrations }) {
     return (
         <div>
             <Head>
-                <title>Integrations | Calendso</title>
+                <title>Integrations | Salescamp</title>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 

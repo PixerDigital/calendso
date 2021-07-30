@@ -370,7 +370,7 @@ export default function EventTypePage({
   return (
     <div>
       <Head>
-        <title>{eventType.title} | Event Type | Calendso</title>
+        <title>{eventType.title} | Event Type | Salescamp</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Shell heading={"Event Type - " + eventType.title}>

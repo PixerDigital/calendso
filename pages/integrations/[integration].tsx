@@ -36,7 +36,7 @@ export default function integration(props) {
     return(
         <div>
             <Head>
-                <title>{getIntegrationName(props.integration.type)} | Integrations | Calendso</title>
+                <title>{getIntegrationName(props.integration.type)} | Integrations | Salescamp</title>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
