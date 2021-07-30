@@ -4,7 +4,6 @@ import prisma from "../lib/prisma";
 import Shell from "../components/Shell";
 import { getSession, useSession } from "next-auth/client";
 import { CheckIcon, ClockIcon, InformationCircleIcon } from "@heroicons/react/outline";
-import DonateBanner from "../components/DonateBanner";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -308,7 +307,6 @@ export default function Home(props) {
             </div>
           </div>
         </div>
-        <DonateBanner />
       </Shell>
     </div>
   );
