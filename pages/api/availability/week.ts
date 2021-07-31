@@ -1,9 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/client";
 import prisma from "../../../lib/prisma";
+import { validateToken } from "./../../../middleware/auth";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const session = await getSession({ req: req });
+  const session = await validateToken(req, res);
 
   if (!session) {
     res.status(401).json({ message: "Not authenticated" });
@@ -13,7 +14,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (req.method == "PATCH") {
     const startMins = req.body.start;
     const endMins = req.body.end;
-
+    //schedule table???
     await prisma.schedule.update({
       where: {
         id: session.user.id,

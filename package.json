@@ -9,8 +9,7 @@
     "start": "next start",
     "postinstall": "prisma generate",
     "pre-commit": "lint-staged",
-    "lint": "eslint . --ext .ts,.js,.tsx,.jsx",
-    "prepare": "husky install"
+    "lint": "eslint . --ext .ts,.js,.tsx,.jsx"
   },
   "dependencies": {
     "@headlessui/react": "^1.0.0",
@@ -57,7 +56,6 @@
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "husky": "^6.0.0",
     "jest": "^27.0.5",
     "lint-staged": "^11.0.0",
     "mockdate": "^3.0.5",

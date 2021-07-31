@@ -5,6 +5,7 @@ import { getBusyVideoTimes } from "../../../lib/videoClient";
 import dayjs from "dayjs";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  //error
   const { user } = req.query;
 
   const currentUser = await prisma.user.findFirst({
@@ -18,6 +19,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       id: true,
     },
   });
+  console.log(currentUser);
 
   const selectedCalendars = await prisma.selectedCalendar.findMany({
     where: {

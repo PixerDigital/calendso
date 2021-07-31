@@ -1,9 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../lib/prisma";
 import { getSession } from "next-auth/client";
+import { validateToken } from "./../../middleware/auth";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const session = await getSession({ req: req });
+  const session = await validateToken(req, res);
 
   if (!session) {
     res.status(401).json({ message: "Not authenticated" });
