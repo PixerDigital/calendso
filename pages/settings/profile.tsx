@@ -92,7 +92,7 @@ export default function Settings(props) {
   return (
     <Shell heading="Profile">
       <Head>
-        <title>Profile | Calendso</title>
+        <title>Profile | Salescamp</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <SettingsShell>

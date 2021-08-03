@@ -14,7 +14,7 @@ export default function Billing(props) {
   return (
     <Shell heading="Billing">
       <Head>
-        <title>Billing | Calendso</title>
+        <title>Billing | Salescamp</title>
       </Head>
       <SettingsShell>
         <div className="py-6 px-4 sm:p-6 lg:pb-8 lg:col-span-9">

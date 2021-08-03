@@ -59,7 +59,7 @@ export default function Teams() {
   return (
     <Shell heading="Teams">
       <Head>
-        <title>Teams | Calendso</title>
+        <title>Teams | Salescamp</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <SettingsShell>

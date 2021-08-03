@@ -21,7 +21,7 @@ export default function Embed(props) {
     return(
         <Shell heading="Embed">
             <Head>
-                <title>Embed | Calendso</title>
+                <title>Embed | Salescamp</title>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <SettingsShell>
