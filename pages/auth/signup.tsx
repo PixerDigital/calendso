@@ -100,6 +100,7 @@ export default function Signup(props) {
 }
 
 export async function getServerSideProps(ctx) {
+  console.log('signup--------------server')
   if (!ctx.query.token) {
     return {
       notFound: true,

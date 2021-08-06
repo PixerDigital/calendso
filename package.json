@@ -9,8 +9,7 @@
     "start": "next start -p $PORT",
     "postinstall": "prisma generate",
     "pre-commit": "lint-staged",
-    "lint": "eslint . --ext .ts,.js,.tsx,.jsx",
-    "prepare": "husky install"
+    "lint": "eslint . --ext .ts,.js,.tsx,.jsx"
   },
   "dependencies": {
     "@headlessui/react": "^1.0.0",
@@ -26,6 +25,7 @@
     "googleapis": "^67.1.1",
     "handlebars": "^4.7.7",
     "ics": "^2.27.0",
+    "jsonwebtoken": "^8.5.1",
     "lodash.debounce": "^4.0.8",
     "lodash.merge": "^4.6.2",
     "lodash.throttle": "^4.1.1",
@@ -57,7 +57,6 @@
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "husky": "^6.0.0",
     "jest": "^27.0.5",
     "lint-staged": "^11.0.0",
     "mockdate": "^3.0.5",

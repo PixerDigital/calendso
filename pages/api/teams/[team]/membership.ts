@@ -1,26 +1,27 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import prisma from '../../../../lib/prisma';
-import {getSession} from "next-auth/client";
+import type { NextApiRequest, NextApiResponse } from "next";
+import prisma from "../../../../lib/prisma";
+import { getSession } from "next-auth/client";
+import { getSessionFromToken } from "./../../../../middleware/auth";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-
-  const session = await getSession({req});
+  let session = await getSessionFromToken({ req: req });
+  if (!session || !session.user || !session.user.id) session = await getSession({ req: req });
 
   if (!session) {
-    res.status(401).json({message: "Not authenticated"});
+    res.status(401).json({ message: "Not authenticated" });
     return;
   }
 
-  const isTeamOwner = !!await prisma.membership.findFirst({
+  const isTeamOwner = !!(await prisma.membership.findFirst({
     where: {
       userId: session.user.id,
       teamId: parseInt(req.query.team),
-      role: 'OWNER'
-    }
-  });
+      role: "OWNER",
+    },
+  }));
 
-  if ( ! isTeamOwner) {
-    res.status(403).json({message: "You are not authorized to manage this team"});
+  if (!isTeamOwner) {
+    res.status(403).json({ message: "You are not authorized to manage this team" });
     return;
   }
 
@@ -29,23 +30,23 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const memberships = await prisma.membership.findMany({
       where: {
         teamId: parseInt(req.query.team),
-      }
+      },
     });
 
     let members = await prisma.user.findMany({
       where: {
         id: {
-          in: memberships.map( (membership) => membership.userId ),
-        }
-      }
+          in: memberships.map((membership) => membership.userId),
+        },
+      },
     });
 
-    members = members.map( (member) => {
-      const membership = memberships.find( (membership) => member.id === membership.userId );
+    members = members.map((member) => {
+      const membership = memberships.find((membership) => member.id === membership.userId);
       return {
         ...member,
-        role: membership.accepted ? membership.role : 'INVITEE',
-      }
+        role: membership.accepted ? membership.role : "INVITEE",
+      };
     });
 
     return res.status(200).json({ members: members });
@@ -56,7 +57,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const memberships = await prisma.membership.delete({
       where: {
         userId_teamId: { userId: req.body.userId, teamId: parseInt(req.query.team) },
-      }
+      },
     });
     return res.status(204).send(null);
   }

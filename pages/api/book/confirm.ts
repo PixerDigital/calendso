@@ -4,9 +4,13 @@ import prisma from "../../../lib/prisma";
 import { handleLegacyConfirmationMail, scheduleEvent } from "./[user]";
 import { CalendarEvent } from "@lib/calendarClient";
 import EventRejectionMail from "@lib/emails/EventRejectionMail";
+import { getSessionFromToken } from "../../../middleware/auth";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse): Promise<void> {
-  const session = await getSession({ req: req });
+  let session = await getSessionFromToken({ req: req });
+  if (!session || !session.user || !session.user.id) session = await getSession({ req: req });
+  const email = session.user.email;
+
   if (!session) {
     return res.status(401).json({ message: "Not authenticated" });
   }
@@ -18,7 +22,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   const currentUser = await prisma.user.findFirst({
     where: {
-      id: session.user.id,
+      email: email,
     },
     select: {
       id: true,
