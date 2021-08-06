@@ -19,7 +19,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       id: true,
     },
   });
-  console.log(currentUser);
 
   const selectedCalendars = await prisma.selectedCalendar.findMany({
     where: {

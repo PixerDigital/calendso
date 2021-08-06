@@ -1,6 +1,5 @@
 import prisma from "../../../lib/prisma";
 import { hashPassword } from "../../../lib/auth";
-import { generateJWTToken } from "../../../middleware/auth";
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return;

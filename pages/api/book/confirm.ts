@@ -4,10 +4,11 @@ import prisma from "../../../lib/prisma";
 import { handleLegacyConfirmationMail, scheduleEvent } from "./[user]";
 import { CalendarEvent } from "@lib/calendarClient";
 import EventRejectionMail from "@lib/emails/EventRejectionMail";
-import { validateToken } from "../../../middleware/auth";
+import { getSessionFromToken } from "../../../middleware/auth";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse): Promise<void> {
-  const session = await validateToken(req, res);
+  let session = await getSessionFromToken({ req: req });
+  if (!session || !session.user || !session.user.id) session = await getSession({ req: req });
   const email = session.user.email;
 
   if (!session) {

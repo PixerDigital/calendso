@@ -1,15 +1,16 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getSession } from "next-auth/client";
 import prisma from "../../../../lib/prisma";
-const { google } = require("googleapis");
-import { validateToken } from "./../../../../middleware/auth";
+import { google } from "googleapis";
+import { getSession } from "next-auth/client";
+import  { getSessionFromToken }  from "./../../../../middleware/auth";
 
 const credentials = process.env.GOOGLE_API_CREDENTIALS;
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { code } = req.query;
 
   // Check that user is authenticated
-  const session = await validateToken(req, res);
+  let session = await getSessionFromToken({ req: req });
+  if (!session || !session.user || !session.user.id) session = await getSession({ req: req });
 
   if (!session) {
     res.status(401).json({ message: "You must be logged in to do this" });

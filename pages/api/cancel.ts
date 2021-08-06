@@ -1,12 +1,13 @@
+import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../lib/prisma";
 import { deleteEvent } from "../../lib/calendarClient";
 import async from "async";
 import { deleteMeeting } from "../../lib/videoClient";
 
-export default async function handler(req, res) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method == "POST") {
     const uid = req.body.uid;
-
+    
     const bookingToDelete = await prisma.booking.findFirst({
       where: {
         uid: uid,

@@ -1,11 +1,12 @@
 import prisma from "../../lib/prisma";
 import { getSession } from "next-auth/client";
-import { validateToken } from "./../../middleware/auth";
+import { getSessionFromToken } from "./../../middleware/auth";
 
 export default async function handler(req, res) {
   if (req.method === "GET") {
     // Check that user is authenticated
-    const session = await validateToken(req, res);
+    let session = await getSessionFromToken({ req: req });
+    if (!session || !session.user || !session.user.id) session = await getSession({ req: req });
 
     if (!session) {
       res.status(401).json({ message: "You must be logged in to do this" });
@@ -26,7 +27,8 @@ export default async function handler(req, res) {
   }
 
   if (req.method == "DELETE") {
-    const session = await validateToken(req, res);
+    let session = await getSessionFromToken({ req: req });
+    if (!session || !session.user || !session.user.id) session = await getSession({ req: req });
 
     if (!session) {
       res.status(401).json({ message: "You must be logged in to do this" });

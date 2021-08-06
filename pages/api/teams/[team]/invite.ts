@@ -1,17 +1,18 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../lib/prisma";
 import createInvitationEmail from "../../../../lib/emails/invitation";
-import { getSession } from "next-auth/client";
 import { randomBytes } from "crypto";
 import { create } from "domain";
-import { validateToken } from "./../../../../middleware/auth";
+import { getSession } from "next-auth/client";
+import { getSessionFromToken } from "./../../../../middleware/auth";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== "POST") {
     return res.status(400).json({ message: "Bad request" });
   }
 
-  const session = await validateToken(req, res);
+  let session = await getSessionFromToken({ req: req });
+  if (!session || !session.user || !session.user.id) session = await getSession({ req: req });
   if (!session) {
     return res.status(401).json({ message: "Not authenticated" });
   }

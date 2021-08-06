@@ -100,44 +100,43 @@ export default function Signup(props) {
 }
 
 export async function getServerSideProps(ctx) {
-  // console.log('signup--------------server')
-  // if (!ctx.query.token) {
-  //   return {
-  //     notFound: true,
-  //   }
-  // }
-  // const verificationRequest = await prisma.verificationRequest.findUnique({
-  //   where: {
-  //     token: ctx.query.token,
-  //   }
-  // });
+  console.log('signup--------------server')
+  if (!ctx.query.token) {
+    return {
+      notFound: true,
+    }
+  }
+  const verificationRequest = await prisma.verificationRequest.findUnique({
+    where: {
+      token: ctx.query.token,
+    }
+  });
 
-  // // for now, disable if no verificationRequestToken given or token expired
-  // if ( ! verificationRequest || verificationRequest.expires < new Date() ) {
-  //   return {
-  //     notFound: true,
-  //   }
-  // }
+  // for now, disable if no verificationRequestToken given or token expired
+  if ( ! verificationRequest || verificationRequest.expires < new Date() ) {
+    return {
+      notFound: true,
+    }
+  }
 
-  // const existingUser = await prisma.user.findFirst({
-  //   where: {
-  //     AND: [
-  //       {
-  //         email: verificationRequest.identifier
-  //       },
-  //       {
-  //         emailVerified: {
-  //           not: null,
-  //         },
-  //       }
-  //     ]
-  //   }
-  // });
+  const existingUser = await prisma.user.findFirst({
+    where: {
+      AND: [
+        {
+          email: verificationRequest.identifier
+        },
+        {
+          emailVerified: {
+            not: null,
+          },
+        }
+      ]
+    }
+  });
 
-  // if (existingUser) {
-  //   return { redirect: { permanent: false, destination: '/auth/login?callbackUrl=' + ctx.query.callbackUrl } };
-  // }
+  if (existingUser) {
+    return { redirect: { permanent: false, destination: '/auth/login?callbackUrl=' + ctx.query.callbackUrl } };
+  }
 
-  // return { props: { email: verificationRequest.identifier } };
-  return {props:{}}
+  return { props: { email: verificationRequest.identifier } };
 }

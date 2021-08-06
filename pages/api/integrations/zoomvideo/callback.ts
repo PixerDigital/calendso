@@ -1,16 +1,17 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getSession } from "next-auth/client";
 import prisma from "../../../../lib/prisma";
-import { validateToken } from "./../../../../middleware/auth";
+import { getSession } from "next-auth/client";
+import { getSessionFromToken } from "./../../../../middleware/auth";
 
 const client_id = process.env.ZOOM_CLIENT_ID;
 const client_secret = process.env.ZOOM_CLIENT_SECRET;
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse): Promise<void> {
   const { code } = req.query;
 
   // Check that user is authenticated
-  const session = await validateToken(req, res);
+  let session = await getSessionFromToken({ req: req });
+  if (!session || !session.user || !session.user.id) session = await getSession({ req: req });
 
   if (!session) {
     res.status(401).json({ message: "You must be logged in to do this" });
